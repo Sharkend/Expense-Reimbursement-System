@@ -9,12 +9,10 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(
-        name = "reimbursements",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"title"})
-        }
+        name = "reimbursements"
 )
 public class Reimbursement {
     @Id
@@ -27,6 +25,10 @@ public class Reimbursement {
     @Column(name = "status", nullable = false)
     @Value("false")
     private boolean status; //whether the expense has been reimbursed
+
+    @ManyToOne
+    @JoinColumn(name = "emp_id", nullable = false)
+    private Employee employee;
 
     public Long getId() {
         return id;
@@ -67,6 +69,7 @@ public class Reimbursement {
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
                 ", status=" + status +
+                ", employee=" + employee +
                 '}';
     }
 }

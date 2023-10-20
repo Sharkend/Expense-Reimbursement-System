@@ -12,7 +12,12 @@ import java.util.List;
 public class ReimbursementServiceImpl implements ReimbursementService {
 
     @Autowired
-    private ReimbursementRepository reimbursementRepository;
+    private final ReimbursementRepository reimbursementRepository;
+
+    public ReimbursementServiceImpl(ReimbursementRepository reimbursementRepository) {
+        this.reimbursementRepository = reimbursementRepository;
+    }
+
     @Override
     public List<Reimbursement> getAllReimbursements() {
         return reimbursementRepository.findAll();
