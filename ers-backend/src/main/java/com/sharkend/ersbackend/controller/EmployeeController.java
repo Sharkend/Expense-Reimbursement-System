@@ -28,14 +28,20 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<Employee> loginEmployee(@RequestBody ObjHolder.TwoString obj){
-        var data = employeeService.getEmployeeByEmailAndPassword(obj.one, obj.two);
+    public ResponseEntity<Employee> loginEmployee(@RequestBody ObjHolder.LoginObj obj){
+        var data = employeeService.getEmployeeByEmailAndPassword(obj.username, obj.password);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+    //Class for holding custom RequestBodies
     private static class ObjHolder{
-        public static class TwoString {
-            String one;
-            String two;
+        public static class LoginObj {
+            String username;
+            String password;
+
+            public LoginObj(String username, String password) {
+                this.username = username;
+                this.password = password;
+            }
         }
     }
 }
