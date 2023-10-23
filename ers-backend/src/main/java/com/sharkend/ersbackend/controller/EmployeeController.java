@@ -28,6 +28,7 @@ public class EmployeeController {
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<Employee> loginEmployee(@RequestBody ObjHolder.LoginObj obj){
         var data = employeeService.getEmployeeByEmailAndPassword(obj.username, obj.password);

@@ -1,10 +1,15 @@
 import Navbar from "../components/Navbar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+
 
 const HomePage = (props) => {
     const { state } = useLocation();
-    console.log("props: " + state );
-    console.log("propsString: " + JSON.stringify(state) );
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (state == null) navigate('/login')
+    }, []);
+
     return ( 
         <>
         <Navbar />

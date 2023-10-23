@@ -12,17 +12,17 @@ const LoginPage = () => {
         password: ''
     }
 
+    const [loginFailed, setLoginFailed] = useState(false);
+
     const onSubmit = (values) => {
         console.log(values)
         axios.post("http://localhost:9000/api/employee/login", values)
             .then((response) => {
-                console.log("response:");
-                console.log(response.data);
-                navigate('/', {state: response.data})
+                if(response.data == '') setLoginFailed(true);
+                else navigate('/', { state: response.data });
             })
             .catch((error) => {
-                console.log("error");
-                console.log(error);
+                setLoginFailed(true);
             });
     }
 
@@ -40,11 +40,14 @@ const LoginPage = () => {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-3"></div>
+                <div className="col-md-3" />
                 <div className="col-md-6">
                     <div className="wrapper">
-                        <h2>Login</h2>
+                        <h2 className='text-center'>Login</h2>
                         <hr />
+                        {loginFailed && (<div class="alert alert-danger" role="alert">
+                            Invalid email or password.
+                        </div>)}
                         <form onSubmit={formik.handleSubmit}>
                             <div className="form-group">
                                 <label>Email</label>
