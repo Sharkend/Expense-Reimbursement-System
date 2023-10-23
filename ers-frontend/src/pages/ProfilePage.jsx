@@ -1,18 +1,18 @@
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
+import React, { useState, useEffect } from 'react';
 
 
-const HomePage = () => {
-    ////Initialize logged in user
+const ProfilePage = (props) => {
     const navigate = useNavigate();
     const username = Cookies.get("username");
     const password = Cookies.get("password");
     const [user, setUser] = useState({});
     
     useEffect(() => {
+        //Initialize logged in user
         if (!username) navigate('/login');
         else {
             axios.post("http://localhost:9000/api/employee/login", {"username":username, "password":password})
@@ -27,15 +27,12 @@ const HomePage = () => {
             });
         }
     }, []);
-    console.log("\n\n HOMEPAGE: "+ JSON.stringify(user));
 
 
+    console.log("\n\n PROFILEPAGE: "+ JSON.stringify(user));
     return ( 
-        <>
         <Navbar />
-        <p>{}</p>
-        </>
-     );
+    );
 }
  
-export default HomePage;
+export default ProfilePage;

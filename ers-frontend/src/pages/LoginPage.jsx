@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -19,7 +20,11 @@ const LoginPage = () => {
         axios.post("http://localhost:9000/api/employee/login", values)
             .then((response) => {
                 if(response.data == '') setLoginFailed(true);
-                else navigate('/', { state: response.data });
+                else {
+                    Cookies.set("username", values.username);
+                    Cookies.set("password", values.password);
+                    navigate('/');
+                }
             })
             .catch((error) => {
                 setLoginFailed(true);
