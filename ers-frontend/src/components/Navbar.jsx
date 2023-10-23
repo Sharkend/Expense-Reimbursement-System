@@ -15,13 +15,21 @@ const Navbar = () => {
                         <a className="nav-link" href="#">My Reimbursements</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link disabled">Disabled</a>
+                        <a className="nav-link disabled">Manage</a>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Profile</a>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <div className="dropdown-menu dropdown-menu-right">
+                            <a className="dropdown-item" href="#">Action</a>
+                            <a className="dropdown-item" href="#">Another action</a>
+                            <a className="dropdown-item" href="#">Something else here</a>
+                        </div>
                     </li>
+
                 </ul>
             </div>
         </nav>

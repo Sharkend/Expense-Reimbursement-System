@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
@@ -27,7 +28,7 @@ public class EmployeeController {
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 
-    @GetMapping
+    @PostMapping("/login")
     public ResponseEntity<Employee> loginEmployee(@RequestBody ObjHolder.LoginObj obj){
         var data = employeeService.getEmployeeByEmailAndPassword(obj.username, obj.password);
         return new ResponseEntity<>(data, HttpStatus.OK);
