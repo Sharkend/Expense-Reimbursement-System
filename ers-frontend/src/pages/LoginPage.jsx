@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -15,14 +15,26 @@ const LoginPage = () => {
 
     const [loginFailed, setLoginFailed] = useState(false);
 
+    useEffect(() => {
+        //Remove stored login credentials (removing all cookies)
+        const cookies = Cookies.get();
+
+        for (const cookie in cookies) {
+            Cookies.remove(cookie);
+        }
+    }, []);
+
     const onSubmit = (values) => {
         console.log(values)
         axios.post("http://localhost:9000/api/employee/login", values)
             .then((response) => {
-                if(response.data == '') setLoginFailed(true);
+                if (response.data == '') setLoginFailed(true);
                 else {
                     Cookies.set("username", values.username);
                     Cookies.set("password", values.password);
+                    Cookies.set("manager", response.data.manager);
+                    Cookies.set("empId", response.data.empId);
+                    Cookies.set("name", response.data.name);
                     navigate('/');
                 }
             })

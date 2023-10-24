@@ -19,6 +19,11 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
+    public List<Reimbursement> getAllReimbursementsByEmpId(long id) {
+        return reimbursementRepository.findAllByEmployeeEmpId(id);
+    }
+
+    @Override
     public List<Reimbursement> getAllReimbursements() {
         return reimbursementRepository.findAll();
     }

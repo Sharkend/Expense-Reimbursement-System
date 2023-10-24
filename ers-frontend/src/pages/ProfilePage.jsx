@@ -12,7 +12,7 @@ const ProfilePage = (props) => {
     const [user, setUser] = useState({});
     
     useEffect(() => {
-        //Initialize logged in user
+        //Initialize logged-in user
         if (!username) navigate('/login');
         else {
             axios.post("http://localhost:9000/api/employee/login", {"username":username, "password":password})

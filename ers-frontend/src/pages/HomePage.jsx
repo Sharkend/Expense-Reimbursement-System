@@ -3,39 +3,40 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 
 const HomePage = () => {
-    ////Initialize logged in user
+    //Initialize logged-in user
     const navigate = useNavigate();
-    const username = Cookies.get("username");
+    const email = Cookies.get("username");
     const password = Cookies.get("password");
-    const [user, setUser] = useState({});
-    
+    const name = Cookies.get("name");
+    const manager = Cookies.get("manager") == "true";
+    const empId = Cookies.get("empId");
+
     useEffect(() => {
-        if (!username) navigate('/login');
-        else {
-            axios.post("http://localhost:9000/api/employee/login", {"username":username, "password":password})
-            .then((response) => {
-                if(response.data == '') console.log("shouldnt reach here");
-                else {
-                    setUser(JSON.parse(JSON.stringify(response.data)));
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        }
+        if (!email) navigate('/login');
+        
     }, []);
-    console.log("\n\n HOMEPAGE: "+ JSON.stringify(user));
 
-
-    return ( 
+    return (
         <>
-        <Navbar />
-        <p>{}</p>
+            <Navbar />
+            {/* Homepage */}
+            <div className="jumbotron">
+                <h1 className="display-4">Hello, {name}</h1>
+                <p className="lead">The Expense Reimbursement System will manage all reimbursements to employees for expenses incurred for business purposes.</p>
+                <hr className="my-4" />
+                <p>The following features are enabled for all {manager ? "managers" : "associates"}:</p>
+                <p className="lead">
+                    <Link className="btn btn-dark btn-lg" to="/reimbursement" role="button">Manage Reimbursements</Link>
+                    <Link className="btn btn-dark btn-lg ml-3" to="/profile" role="button">Edit Profile</Link>
+                </p>
+            </div>
+            <p>{ }</p>
         </>
-     );
+    );
 }
- 
+
 export default HomePage;

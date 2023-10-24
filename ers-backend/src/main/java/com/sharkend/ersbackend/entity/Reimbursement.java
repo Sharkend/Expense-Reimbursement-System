@@ -1,5 +1,6 @@
 package com.sharkend.ersbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Reimbursement {
 
     @ManyToOne
     @JoinColumn(name = "emp_id", nullable = false)
+    @JsonBackReference
     private Employee employee;
 
     public Long getId() {

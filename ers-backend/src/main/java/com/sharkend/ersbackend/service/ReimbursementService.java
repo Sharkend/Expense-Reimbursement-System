@@ -5,6 +5,7 @@ import com.sharkend.ersbackend.entity.Reimbursement;
 import java.util.List;
 
 public interface ReimbursementService {
+    List<Reimbursement> getAllReimbursementsByEmpId(long id);
     List<Reimbursement> getAllReimbursements();
     Reimbursement getReimbursementById(Long id);
     Reimbursement createReimbursement(Reimbursement reimbursement);

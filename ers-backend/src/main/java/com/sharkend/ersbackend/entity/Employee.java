@@ -1,5 +1,7 @@
 package com.sharkend.ersbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -25,9 +27,10 @@ public class Employee {
     private boolean manager;
     @OneToMany(mappedBy = "employee",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private Set<Reimbursement> reimbursements = new HashSet<>();
 
     public long getEmpId() {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/reimbursement")
 @RestController
 public class ReimbursementController {
@@ -24,6 +25,12 @@ public class ReimbursementController {
     @GetMapping
     public ResponseEntity<List<Reimbursement>> getAllReimbursements() {
         var data = reimbursementService.getAllReimbursements();
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Reimbursement>> getAllReimbursementsByEmpId(@PathVariable("id") long id) {
+        var data = reimbursementService.getAllReimbursementsByEmpId(id);
+        System.out.println(data);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
