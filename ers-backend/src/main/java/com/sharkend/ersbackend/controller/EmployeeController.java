@@ -27,7 +27,11 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee employee) {
+        var data = employeeService.updateEmployee(id, employee);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<Employee> loginEmployee(@RequestBody ObjHolder.LoginObj obj){

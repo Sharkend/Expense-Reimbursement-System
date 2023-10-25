@@ -10,12 +10,23 @@ const ReimbursePage = () => {
     const navigate = useNavigate();
     const empId = Cookies.get("empId");
     const manager = Cookies.get("manager") == "true";
+    const [rs, setRs] = useState([]); //reimbursements
+    const [status, setStatus] = useState(); //to remember the filter in fetchAllFilter after a deletion
 
     function fetchAllFilter(status) {
+        console.log(status);
         axios.get("http://localhost:9000/api/reimbursement/" + empId + (status == true || status == false ? ("?status=" + status) : ''))
             .then((response) => {
                 setRs(response.data)
                 console.log(response.data)
+            })
+            .catch((error) => console.log(error));
+    }
+    function delR(r) {
+        axios.delete("http://localhost:9000/api/reimbursement/" + r.id)
+            .then((response) => {
+                console.log(response.data);
+                fetchAllFilter(status);
             })
             .catch((error) => console.log(error));
     }
@@ -26,8 +37,7 @@ const ReimbursePage = () => {
         else fetchAllFilter();
     }, []);
 
-    const [rs, setRs] = useState([]);
-    const [activeR, setActiveR] = useState({});
+
     return (
         <>
             <Navbar />
@@ -45,8 +55,8 @@ const ReimbursePage = () => {
                             </h5>
                             <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#SL{r.id}RS23</h6>
                             <p className="card-text">{r.description}</p>
-                            {!r.status && <Link to={`/reimbursement/${r.id}`} className="card-link text-info" data={r}>Edit</Link> }
-                            <Link to="#" className="card-link text-danger">Delete</Link>
+                            {!r.status && <Link to={`/reimbursement/${r.id}`} className="card-link text-info" data={r}>Edit</Link>}
+                            <Link onClick={() => delR(r)} className="card-link text-danger">Delete</Link>
                         </div>
                     </div>
                 ))}
@@ -54,21 +64,26 @@ const ReimbursePage = () => {
 
             {/* Footer Filters (sticky) */}
             <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
-                <Link className="navbar-brand" to="#">Filter: </Link>
+                <Link className="navbar-brand" to="#">Tools: </Link>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link className="nav-link" onClick={fetchAllFilter}>All </Link>
+                            <button className="nav-link btn btn-link" onClick={fetchAllFilter}>All </button>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" onClick={() => fetchAllFilter(false)}>Pending</Link>
+                            <button className="nav-link btn btn-link" onClick={() => { setStatus(false); fetchAllFilter(false) }}>Pending</button>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" onClick={() => fetchAllFilter(true)}>Resolved</Link>
+                            <button className="nav-link btn btn-link" onClick={() => { setStatus(true); fetchAllFilter(true) }}>Resolved</button>
                         </li>
                     </ul>
-                    <button className="btn btn-light">Create</button>
                     <ul className="navbar-nav ml-auto" >
+                        <button className="btn btn-light">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="currentColor" className="bi bi-plus-circle mb-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg> Create
+                        </button>
                         {manager &&
                             (<li className="nav-item">
                                 <Link className="nav-link" to="/reimbursement/employee">Employee View</Link>

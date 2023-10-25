@@ -27,7 +27,7 @@ public class Employee {
     private boolean manager;
     @OneToMany(mappedBy = "employee",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     @JsonManagedReference

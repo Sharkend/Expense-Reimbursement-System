@@ -8,6 +8,5 @@ import java.util.List;
 public interface ReimbursementRepository extends JpaRepository<Reimbursement, Long> {
     List<Reimbursement> findAllByEmployeeEmpId(long id);
     List<Reimbursement> findAllByStatusAndEmployeeEmpId(boolean status, long id);
-
     List<Reimbursement> findAllByStatus(boolean status);
 }
