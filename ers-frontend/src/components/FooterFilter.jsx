@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-const FooterFilter = () => {
+const FooterFilter = (props) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
             <Link className="navbar-brand" to="#">Filter: </Link>
@@ -14,6 +14,11 @@ const FooterFilter = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="#">Resolved</Link>
                     </li>
+                    {props.manager &&
+                        (<li className="nav-item">
+                            <Link className="nav-link" to="#">Employee Search</Link>
+                        </li>)
+                    }
                 </ul>
                 <button className="btn btn-light float-right">Create</button>
             </div>

@@ -29,6 +29,16 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
+    public List<Reimbursement> getAllByStatusAndEmpId(boolean status, long id) {
+        return reimbursementRepository.findAllByStatusAndEmployeeEmpId(status, id);
+    }
+
+    @Override
+    public List<Reimbursement> getAllByStatus(boolean status) {
+        return reimbursementRepository.findAllByStatus(status);
+    }
+
+    @Override
     public Reimbursement getReimbursementById(Long id) {
         return reimbursementRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Invalid ID"));

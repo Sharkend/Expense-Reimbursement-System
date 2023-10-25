@@ -30,10 +30,22 @@ public class ReimbursementController {
     @GetMapping("/{id}")
     public ResponseEntity<List<Reimbursement>> getAllReimbursementsByEmpId(@PathVariable("id") long id) {
         var data = reimbursementService.getAllReimbursementsByEmpId(id);
-        System.out.println(data);
+//        System.out.println(data);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/{id}", params = "status")
+    public ResponseEntity<List<Reimbursement>> getAllReimbursementsByStatusAndEmpId(
+            @RequestParam boolean status, @PathVariable("id") long id
+    ) {
+        var data = reimbursementService.getAllByStatusAndEmpId(status, id);
+        return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/employee", params = "status")
+    public ResponseEntity<List<Reimbursement>> getAllReimbursementsByStatus(@RequestParam boolean status) {
+        return new ResponseEntity<>(reimbursementService.getAllByStatus(status), HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Reimbursement> updateReimbursement(@PathVariable("id") Long id,
                                                              @RequestBody Reimbursement reimbursement) {

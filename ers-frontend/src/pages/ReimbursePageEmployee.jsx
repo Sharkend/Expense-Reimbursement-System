@@ -4,34 +4,49 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import FooterFilter from "../components/FooterFilter";
 
-const ReimbursePage = () => {
+const ReimbursePageEmployee = () => {
     const navigate = useNavigate();
     const empId = Cookies.get("empId");
     const manager = Cookies.get("manager") == "true";
+    const [rs, setRs] = useState([]);
+    const [eId, setEId] = useState("");
 
     function fetchAllFilter(status) {
-        axios.get("http://localhost:9000/api/reimbursement/" + empId + (status == true || status == false ? ("?status=" + status) : ''))
-            .then((response) => {
-                setRs(response.data)
-                console.log(response.data)
-            })
-            .catch((error) => console.log(error));
+        if (eId == "")
+            axios.get("http://localhost:9000/api/reimbursement" + (status == true || status == false ? ("/employee?status=" + status) : ''))
+                .then((response) => {
+                    setRs(response.data)
+                    console.log(response.data)
+                })
+                .catch((error) => console.log(error));
+        else
+            axios.get("http://localhost:9000/api/reimbursement/" + eId + (status == true || status == false ? ("?status=" + status) : ''))
+                .then((response) => {
+                    setRs(response.data)
+                    console.log(response.data)
+                })
+                .catch((error) => console.log(error));
     }
 
-
     useEffect(() => {
-        if (!empId) navigate('/login');
-        else fetchAllFilter();
+        if (!manager)
+            navigate(-1);
+        else
+            fetchAllFilter();
     }, []);
 
-    const [rs, setRs] = useState([]);
-    const [activeR, setActiveR] = useState({});
+    const handleEid = (e) => { setEId(e.target.value); console.log(eId); }
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            fetchAllFilter();
+        }
+    };
+
     return (
         <>
             <Navbar />
-            <h1 className="text-center mx-5 my-3"> My Reimbursements </h1>
+            <h1 className="text-center mx-5 my-3"> Employee Reimbursements </h1>
             {/* <FooterFilter manager={manager}/> */}
             <div className="row mx-4">
                 {rs.map((r, index) => (
@@ -67,18 +82,25 @@ const ReimbursePage = () => {
                             <Link className="nav-link" onClick={() => fetchAllFilter(true)}>Resolved</Link>
                         </li>
                     </ul>
-                    <button className="btn btn-light">Create</button>
-                    <ul className="navbar-nav ml-auto" >
-                        {manager &&
-                            (<li className="nav-item">
-                                <Link className="nav-link" to="/reimbursement/employee">Employee View</Link>
-                            </li>)
-                        }
+                    <button className="btn btn-light float-right">Create</button>
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item mr-2">
+                            <Link className="nav-link" to="/reimbursement">Self View</Link>
+                        </li>
+                        <li className="nav-item">
+                            <input
+                                className="form-control mr-sm-2"
+                                type="text"
+                                value={eId}
+                                onChange={handleEid}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </li>
                     </ul>
                 </div>
-            </nav >
+            </nav>
         </>
     );
 }
 
-export default ReimbursePage;
+export default ReimbursePageEmployee;
