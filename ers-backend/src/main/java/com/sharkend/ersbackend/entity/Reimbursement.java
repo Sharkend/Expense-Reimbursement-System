@@ -28,7 +28,7 @@ public class Reimbursement {
     private boolean status; //whether the expense has been reimbursed
 
     @ManyToOne
-    @JoinColumn(name = "emp_id", nullable = false)
+    @JoinColumn(name = "emp_id")//, nullable = false, updatable = false)
     @JsonBackReference
     private Employee employee;
 
@@ -62,6 +62,14 @@ public class Reimbursement {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override

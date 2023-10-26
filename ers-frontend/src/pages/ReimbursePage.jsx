@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
-import FooterFilter from "../components/FooterFilter";
 
 const ReimbursePage = () => {
     const navigate = useNavigate();
@@ -12,6 +11,9 @@ const ReimbursePage = () => {
     const manager = Cookies.get("manager") == "true";
     const [rs, setRs] = useState([]); //reimbursements
     const [status, setStatus] = useState(); //to remember the filter in fetchAllFilter after a deletion
+
+    const [description, setDescription] = useState("");
+    const [amount, setAmount] = useState("");
 
     function fetchAllFilter(status) {
         console.log(status);
@@ -22,15 +24,43 @@ const ReimbursePage = () => {
             })
             .catch((error) => console.log(error));
     }
-    function delR(r) {
-        axios.delete("http://localhost:9000/api/reimbursement/" + r.id)
-            .then((response) => {
-                console.log(response.data);
-                fetchAllFilter(status);
-            })
-            .catch((error) => console.log(error));
+    function handleDelete(r) {
+        if (window.confirm("Delete this reimbursement?"))
+            axios.delete("http://localhost:9000/api/reimbursement/" + r.id)
+                .then((response) => {
+                    console.log(response.data);
+                    fetchAllFilter(status);
+                })
+                .catch((error) => console.log(error));
     }
 
+    const handleCreate = (event) => {
+        event.preventDefault();
+        function isNumberString(string) {
+            const regex = /^\d+(\.\d+)?$/;
+            return regex.test(string);
+        }
+
+        // Submit the form data to the server.
+        const _amount = document.querySelector("#amount").value;
+        const _desc = document.querySelector("#message-text").value;
+        console.log(_amount + " " + _desc);
+        if (!isNumberString(amount) || _desc == "") alert("Please fill the amount in INR and provide a valid description.");
+        else {
+            axios.post("http://localhost:9000/api/reimbursement/" + empId, {
+                "amount": _amount,
+                "status": "false",
+                "description": _desc
+            }).then(
+                window.location.reload()
+            );
+            // const modal = document.querySelector("#exampleModal");
+            // modal.modal('hide');
+            //^jQuery not working?
+            setAmount("");
+            setDescription("");
+        }
+    };
 
     useEffect(() => {
         if (!empId) navigate('/login');
@@ -42,10 +72,9 @@ const ReimbursePage = () => {
         <>
             <Navbar />
             <h1 className="text-center mx-5 my-3"> My Reimbursements </h1>
-            {/* <FooterFilter manager={manager}/> */}
             <div className="row mx-4">
                 {rs.map((r, index) => (
-                    <div className="card col-md-3 mx-2 my-3">
+                    <div className="card col-md-3 my-3 mx-2">
                         <div className="card-body" key={index}>
                             <h5 className="card-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" className="bi bi-currency-rupee mb-1" viewBox="0 0 16 16">
@@ -56,7 +85,7 @@ const ReimbursePage = () => {
                             <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#SL{r.id}RS23</h6>
                             <p className="card-text">{r.description}</p>
                             {!r.status && <Link to={`/reimbursement/${r.id}`} className="card-link text-info" data={r}>Edit</Link>}
-                            <Link onClick={() => delR(r)} className="card-link text-danger">Delete</Link>
+                            <Link onClick={() => handleDelete(r)} className="card-link text-danger">Delete</Link>
                         </div>
                     </div>
                 ))}
@@ -78,7 +107,7 @@ const ReimbursePage = () => {
                         </li>
                     </ul>
                     <ul className="navbar-nav ml-auto" >
-                        <button className="btn btn-light">
+                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="Amount in INR">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="currentColor" className="bi bi-plus-circle mb-1" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
@@ -92,6 +121,36 @@ const ReimbursePage = () => {
                     </ul>
                 </div>
             </nav >
+
+            {/* Create Modal */}
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">New Reimbursement</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleCreate}>
+                                <div className="form-group">
+                                    <label for="amount" className="col-form-label">Amount:</label>
+                                    <input type="text" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label for="message-text" className="col-form-label">Description:</label>
+                                    <textarea className="form-control" id="message-text" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Submit" className="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

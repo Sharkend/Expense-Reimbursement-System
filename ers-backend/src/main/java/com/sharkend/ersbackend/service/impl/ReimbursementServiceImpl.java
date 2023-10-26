@@ -1,21 +1,27 @@
 package com.sharkend.ersbackend.service.impl;
 
+import com.sharkend.ersbackend.entity.Employee;
 import com.sharkend.ersbackend.entity.Reimbursement;
+import com.sharkend.ersbackend.repository.EmployeeRepository;
 import com.sharkend.ersbackend.repository.ReimbursementRepository;
 import com.sharkend.ersbackend.service.ReimbursementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ReimbursementServiceImpl implements ReimbursementService {
 
     @Autowired
     private final ReimbursementRepository reimbursementRepository;
+    @Autowired
+    private final EmployeeRepository employeeRepository;
 
-    public ReimbursementServiceImpl(ReimbursementRepository reimbursementRepository) {
+    public ReimbursementServiceImpl(ReimbursementRepository reimbursementRepository, EmployeeRepository employeeRepository) {
         this.reimbursementRepository = reimbursementRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -45,11 +51,6 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     }
 
     @Override
-    public Reimbursement createReimbursement(Reimbursement reimbursement) {
-        return reimbursementRepository.save(reimbursement);
-    }
-
-    @Override
     public Reimbursement updateReimbursement(Long id, Reimbursement reimbursement) {
         Reimbursement _reimbursement = reimbursementRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("This reimbursement does not exist"));
@@ -62,5 +63,13 @@ public class ReimbursementServiceImpl implements ReimbursementService {
     @Override
     public void deleteReimbursement(Long id) {
         reimbursementRepository.deleteById(id);
+    }
+
+    @Override
+    public Reimbursement createReimbursement(Reimbursement reimbursement, long id) {
+        Employee e = employeeRepository.findById(id).orElseThrow(()->new NoSuchElementException("Critical Error: Employee Does Not exist"));
+        reimbursement.setEmployee(e);
+        reimbursementRepository.save(reimbursement);
+        return reimbursement;
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/employee")
@@ -16,6 +18,10 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+    @GetMapping
+    public ResponseEntity<List<Employee>> findAll() {
+        return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {

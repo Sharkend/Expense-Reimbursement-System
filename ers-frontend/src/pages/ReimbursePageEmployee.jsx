@@ -86,7 +86,7 @@ const ReimbursePageEmployee = () => {
 
             {/* Footer Filters (sticky) */}
             <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
-                <Link className="navbar-brand" to="#">Filter: </Link>
+                <Link className="navbar-brand" to="#">Tools: </Link>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
@@ -99,7 +99,6 @@ const ReimbursePageEmployee = () => {
                             <Link className="nav-link" onClick={() => fetchAllFilter(true)}>Resolved</Link>
                         </li>
                     </ul>
-                    <button className="btn btn-light float-right">Create</button>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item mr-2">
                             <Link className="nav-link" to="/reimbursement">Self View</Link>

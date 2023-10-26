@@ -16,12 +16,11 @@ public class ReimbursementController {
     @Autowired
     private ReimbursementService reimbursementService;
 
-    @PostMapping
-    public ResponseEntity<Reimbursement> createReimbursement(@RequestBody Reimbursement reimbursement) {
-        var data = reimbursementService.createReimbursement(reimbursement);
+    @PostMapping("/{id}")
+    public ResponseEntity<Reimbursement> createReimbursement(@RequestBody Reimbursement reimbursement, @PathVariable("id") long id) {
+        var data = reimbursementService.createReimbursement(reimbursement, id);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
-
     @GetMapping
     public ResponseEntity<List<Reimbursement>> getAllReimbursements() {
         var data = reimbursementService.getAllReimbursements();

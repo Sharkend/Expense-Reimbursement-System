@@ -1,9 +1,9 @@
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from 'react';
+import Cookies from "js-cookie";
 
 const Navbar = () => {
-    const { state } = useLocation();
-    const navigate = useNavigate();
+    const manager = Cookies.get("manager");
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link className="navbar-brand" to="#">ERS</Link>
@@ -20,7 +20,7 @@ const Navbar = () => {
                         <Link className="nav-link" to="/reimbursement">My Reimbursements</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link disabled">Manage</Link>
+                        <Link className={manager? "nav-link":"nav-link disabled"} to="/employees">Manage</Link>
                     </li>
                 </ul>
                 <ul className="navbar-nav ml-auto">

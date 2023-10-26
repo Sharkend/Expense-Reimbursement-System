@@ -10,7 +10,7 @@ public interface ReimbursementService {
     List<Reimbursement> getAllByStatusAndEmpId(boolean status, long id);
     List<Reimbursement> getAllByStatus(boolean status);
     Reimbursement getReimbursementById(Long id);
-    Reimbursement createReimbursement(Reimbursement reimbursement);
     Reimbursement updateReimbursement(Long id, Reimbursement reimbursement);
     void deleteReimbursement(Long id);
+    Reimbursement createReimbursement(Reimbursement reimbursement, long id);
 }

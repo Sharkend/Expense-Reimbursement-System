@@ -3,7 +3,10 @@ package com.sharkend.ersbackend.service.impl;
 import com.sharkend.ersbackend.entity.Employee;
 import com.sharkend.ersbackend.repository.EmployeeRepository;
 import com.sharkend.ersbackend.service.EmployeeService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -36,5 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> findAll() {
+        return employeeRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 }
