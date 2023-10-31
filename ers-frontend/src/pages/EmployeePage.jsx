@@ -6,7 +6,7 @@ import axios from "axios";
 
 const EmployeePage = () => {
     const navigate = useNavigate();
-    const manager = Cookies.get("manager");
+    const manager = Cookies.get("manager")=="true";
     const [empList, setEmpList] = useState([]);
 
     useEffect(() => {

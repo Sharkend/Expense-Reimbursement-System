@@ -48,7 +48,7 @@ const ReimbursePageEmployee = () => {
 
     useEffect(() => {
         if (!manager)
-            navigate(-1);
+            navigate("/");
         else
             fetchAllFilter();
     }, []);

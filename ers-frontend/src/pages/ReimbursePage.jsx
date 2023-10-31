@@ -108,7 +108,7 @@ const ReimbursePage = () => {
                                 </svg>
                                 {r.amount}
                             </h5>
-                            <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#SL{r.id}RS23</h6>
+                            <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#RID: {r.id}</h6>
                             <p className="card-text">{r.description}</p>
                             {!r.status &&
                                 <Link type="button" className="card-link text-info" data-toggle="modal" data-target="#exampleModal2" data-whatever="Amount in INR" onClick={() => setEditData(r)}>
