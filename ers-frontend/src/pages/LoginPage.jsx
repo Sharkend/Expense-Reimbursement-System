@@ -35,7 +35,7 @@ const LoginPage = () => {
                     Cookies.set("manager", response.data.manager);
                     Cookies.set("empId", response.data.empId);
                     Cookies.set("name", response.data.name);
-                    navigate('/');
+                    navigate('/home');
                 }
             })
             .catch((error) => {
