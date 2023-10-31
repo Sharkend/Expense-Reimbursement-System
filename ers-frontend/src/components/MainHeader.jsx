@@ -1,4 +1,4 @@
-// import ers from '../images/ers.png'; -> throws an error if the image doesn't exist, alt will never be used ; TODO delete comment
+import ers from '../images/ers.png';
 
 const MainHeader = () => {
     return (
@@ -11,7 +11,7 @@ const MainHeader = () => {
                         <p class="lead">Organize. Simplify. Achieve. Repeat.</p>
                     </div>
                     <div className="col-md-3">
-                        <img src='../images/ers.png' alt="ers" />
+                        <img src={ers} alt="ers" />
                     </div>
                 </div>
             </div>
