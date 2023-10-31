@@ -1,3 +1,4 @@
+//TODO clean up reused code into functions
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -14,6 +15,7 @@ const ReimbursePage = () => {
 
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
+    const [editData, setEditData] = useState({});
 
     function fetchAllFilter(status) {
         console.log(status);
@@ -62,6 +64,30 @@ const ReimbursePage = () => {
         }
     };
 
+    const handleEdit = (event) => {
+        event.preventDefault();
+        function isNumberString(string) {
+            const regex = /^\d+(\.\d+)?$/;
+            return regex.test(string);
+        }
+        // Submit the form data to the server.
+        const _amount = document.querySelector("#amount2").value;
+        const _desc = document.querySelector("#message-text2").value;
+        console.log(_amount + " " + _desc);
+        if (!isNumberString(amount) || _desc == "") alert("Please fill the amount in INR and provide a valid description.");
+        else {
+            axios.put("http://localhost:9000/api/reimbursement/" + editData.id, { //change empId to Rid
+                "amount": _amount,
+                "status": "false",
+                "description": _desc
+            }).then(
+                window.location.reload()
+            );
+            setAmount("");
+            setDescription("");
+        }
+    };
+
     useEffect(() => {
         if (!empId) navigate('/login');
         else fetchAllFilter();
@@ -84,7 +110,13 @@ const ReimbursePage = () => {
                             </h5>
                             <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#SL{r.id}RS23</h6>
                             <p className="card-text">{r.description}</p>
-                            {!r.status && <Link to={`/reimbursement/${r.id}`} className="card-link text-info" data={r}>Edit</Link>}
+                            {!r.status &&
+                                <Link type="button" className="card-link text-info" data-toggle="modal" data-target="#exampleModal2" data-whatever="Amount in INR" onClick={() => setEditData(r)}>
+                                    Edit
+                                </Link>
+                            }
+
+
                             <Link onClick={() => handleDelete(r)} className="card-link text-danger">Delete</Link>
                         </div>
                     </div>
@@ -141,6 +173,36 @@ const ReimbursePage = () => {
                                 <div className="form-group">
                                     <label for="message-text" className="col-form-label">Description:</label>
                                     <textarea className="form-control" id="message-text" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Submit" className="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* //TEMPORARY edit modal duplicate of create modal, make component later */}
+            <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel2">Modify Reimbursement {editData.id}</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form onSubmit={handleEdit}>
+                                <div className="form-group">
+                                    <label for="amount2" className="col-form-label">Amount:</label>
+                                    <input type="text" className="form-control" id="amount2" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label for="message-text2" className="col-form-label">Description:</label>
+                                    <textarea className="form-control" id="message-text2" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
