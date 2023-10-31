@@ -13,11 +13,7 @@ const MainNavbar = () => {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto ">
                     <li class="nav-item">
-                        {(!empId)
-                            ? (<Link class="nav-link" to="/login">Login</Link>)
-
-                            : (<Link class="nav-link" to="/home"> Home </Link>)
-                        }
+                        <Link class="nav-link" to="/login">Login</Link>
                     </li>
                 </ul>
             </div>
