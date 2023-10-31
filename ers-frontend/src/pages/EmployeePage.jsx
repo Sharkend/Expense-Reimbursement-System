@@ -10,7 +10,7 @@ const EmployeePage = () => {
     const [empList, setEmpList] = useState([]);
 
     useEffect(() => {
-        if (!manager) navigate("/");
+        if (!manager) navigate("/home");
         else {
             axios.get("http://localhost:9000/api/employee")
             .then((response) => {
