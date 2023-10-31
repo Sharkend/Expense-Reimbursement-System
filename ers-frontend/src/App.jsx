@@ -5,12 +5,14 @@ import ProfilePage from './pages/ProfilePage';
 import ReimbursePage from './pages/ReimbursePage';
 import ReimbursePageEmployee from './pages/ReimbursePageEmployee';
 import EmployeePage from './pages/EmployeePage';
+import MainPage from './pages/MainPage';
 function App() {
   return (
     // <div className="App"></div>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<MainPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/reimbursement" element={<ReimbursePage />} />
