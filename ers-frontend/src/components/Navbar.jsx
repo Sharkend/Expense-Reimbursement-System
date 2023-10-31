@@ -3,8 +3,7 @@ import React from 'react';
 import Cookies from "js-cookie";
 
 const Navbar = () => {
-    const manager = Cookies.get("manager")=='true';
-    console.log(manager);
+    const manager = Cookies.get("manager");
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <Link className="navbar-brand" to="#">ERS</Link>
@@ -15,7 +14,7 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/" >Home <span className="sr-only">(current)</span></Link>
+                        <Link className="nav-link" to="/home" >Home <span className="sr-only">(current)</span></Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/reimbursement">My Reimbursements</Link>
