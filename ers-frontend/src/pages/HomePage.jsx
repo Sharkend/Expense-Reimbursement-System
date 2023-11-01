@@ -26,7 +26,7 @@ const HomePage = () => {
             {/* Homepage */}
             <div className="jumbotron">
                 <h1 className="display-4">Hello, {name}</h1>
-                <p className="lead">The Expense Reimbursement System will manage all reimbursements to employees for expenses incurred for business purposes.</p>
+                <p className="lead">The Expense Reimbursement System will manage all reimbursements of business expenses incurred by employees.</p>
                 <hr className="my-4" />
                 <p>The following features are enabled for all {manager ? "managers" : "associates"}:</p>
                 <p className="lead">
