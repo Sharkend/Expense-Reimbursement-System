@@ -11,6 +11,7 @@ const ReimbursePageEmployee = () => {
     const manager = Cookies.get("manager") == "true";
     const [rs, setRs] = useState([]);
     const [eId, setEId] = useState("");
+    const [previousMode, setPreviousMode] = useState(true); //true: r deleted in all filter, false: deleted in pending filter
 
     function fetchAllFilter(status) {
         if (eId == "")
@@ -41,14 +42,15 @@ const ReimbursePageEmployee = () => {
             axios.delete("http://localhost:9000/api/reimbursement/" + r.id)
             .then((response) => {
                 console.log(response.data);
-                fetchAllFilter(true);
+                previousMode ? fetchAllFilter() : fetchAllFilter(false); //deny cannot be selected when filtered by resolved
+
             })
             .catch((error) => console.log(error));
     }
 
     useEffect(() => {
         if (!manager)
-            navigate("/");
+            navigate("/home");
         else
             fetchAllFilter();
     }, []);
@@ -90,10 +92,10 @@ const ReimbursePageEmployee = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link className="nav-link" onClick={fetchAllFilter}>All </Link>
+                            <Link className="nav-link" onClick={() => {setPreviousMode(true); fetchAllFilter()}}>All </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" onClick={() => fetchAllFilter(false)}>Pending</Link>
+                            <Link className="nav-link" onClick={() => {setPreviousMode(false); fetchAllFilter(false)}}>Pending</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" onClick={() => fetchAllFilter(true)}>Resolved</Link>
