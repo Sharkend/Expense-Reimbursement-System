@@ -44,8 +44,8 @@ const LoginPage = () => {
     }
 
     const validationSchema = Yup.object({
-        username: Yup.string().required('email is required').email('email should be valid'),
-        password: Yup.string().required('password is required').min(6, 'password should be 6 character long')
+        username: Yup.string().required('Email is required').email('Email should be valid'),
+        password: Yup.string().required('Password is required').min(6, 'Password should be 6 character long')
     })
 
     const formik = useFormik({
