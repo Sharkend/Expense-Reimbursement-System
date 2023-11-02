@@ -6,6 +6,7 @@ import ReimbursePage from './pages/ReimbursePage';
 import ReimbursePageEmployee from './pages/ReimbursePageEmployee';
 import EmployeePage from './pages/EmployeePage';
 import MainPage from './pages/MainPage';
+import ErrorPage from './pages/ErrorPage';
 function App() {
   return (
     // <div className="App"></div>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/reimbursement" element={<ReimbursePage />} />
         <Route path="/reimbursement/employee" element={<ReimbursePageEmployee />} />
         <Route path="/employees" element={<EmployeePage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

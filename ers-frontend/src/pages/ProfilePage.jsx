@@ -11,7 +11,7 @@ const ProfilePage = (props) => {
     const [password, setPassword] = useState(Cookies.get("password"));
     const [name, setName] = useState(Cookies.get("name"));
     const [editable, setEditable] = useState(false);
-    const manager = Cookies.get("manager");
+    const manager = Cookies.get("manager")=='true';
     const empId = Cookies.get("empId");
     console.log(editable);
 
