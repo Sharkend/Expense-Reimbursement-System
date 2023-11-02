@@ -14,6 +14,7 @@ const ReimbursePageEmployee = () => {
     const [previousMode, setPreviousMode] = useState(true); //true: r deleted in all filter, false: deleted in pending filter
 
     function fetchAllFilter(status) {
+        setPreviousMode(status == false ? false : true); //noting that status may also be null
         if (eId == "")
             axios.get("http://localhost:9000/api/reimbursement" + (status == true || status == false ? ("/employee?status=" + status) : ''))
                 .then((response) => {
@@ -92,10 +93,10 @@ const ReimbursePageEmployee = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link className="nav-link" onClick={() => {setPreviousMode(true); fetchAllFilter()}}>All </Link>
+                            <Link className="nav-link" onClick={() => fetchAllFilter()}>All </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" onClick={() => {setPreviousMode(false); fetchAllFilter(false)}}>Pending</Link>
+                            <Link className="nav-link" onClick={() => fetchAllFilter(false)}>Pending</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" onClick={() => fetchAllFilter(true)}>Resolved</Link>

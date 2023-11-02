@@ -28,6 +28,7 @@ const LoginPage = () => {
         console.log(values)
         axios.post("http://localhost:9000/api/employee/login", values)
             .then((response) => {
+                console.log(response.data)
                 if (response.data == '') setLoginFailed(true);
                 else {
                     Cookies.set("username", values.username);
