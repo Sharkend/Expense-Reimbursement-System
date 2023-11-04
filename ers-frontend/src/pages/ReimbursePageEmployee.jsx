@@ -78,7 +78,7 @@ const ReimbursePageEmployee = () => {
                                 </svg>
                                 {r.amount}
                             </h5>
-                            <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#SL{r.id}RS23</h6>
+                            <h6 className={`card-subtitle mb-2 ${r.status ? 'text-success' : 'text-muted'}`}>#RID: {r.id}</h6>
                             <p className="card-text">{r.description}</p>
                             {!r.status && <Link onClick={() => approve(r, true)} className="card-link text-success" >Approve</Link>}
                             {!r.status && <Link onClick={() => approve(r, false)} className="card-link text-danger" >Deny</Link>}

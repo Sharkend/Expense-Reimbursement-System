@@ -134,9 +134,9 @@ const ProfilePage = (props) => {
                             <div className="col-sm-5"></div>
                             {editable
                                 ?
-                                <input type="submit" value="Save Changes" className="btn btn-primary btn-block" />
+                                <input type="submit" value="Save Changes" className="btn btn-dark btn-block" />
                                 :
-                                <button className="btn btn-primary" onClick={() => setEditable(true)}> Edit </button>
+                                <button className="btn btn-dark" onClick={() => setEditable(true)}> Edit </button>
                             }
                             <div className="col-sm-5"></div>
                         </div>

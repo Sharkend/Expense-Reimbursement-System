@@ -25,10 +25,9 @@ const LoginPage = () => {
     }, []);
 
     const onSubmit = (values) => {
-        console.log(values)
+        // console.log(values)
         axios.post("http://localhost:9000/api/employee/login", values)
             .then((response) => {
-                console.log(response.data)
                 if (response.data == '') setLoginFailed(true);
                 else {
                     Cookies.set("username", values.username);
@@ -87,7 +86,7 @@ const LoginPage = () => {
                                     className={formik.touched.password && formik.errors.password ? 'form-control is-invalid' : 'form-control'} />
                                 {formik.touched.password && formik.errors.password ? <small className='text-danger'>{formik.errors.password}</small> : null}
                             </div>
-                            <input type="submit" value="Login" disabled={!formik.isValid} className="btn btn-primary btn-block" />
+                            <input type="submit" value="Login" disabled={!formik.isValid} className="btn btn-dark btn-block" />
                         </form>
                         <br />
                     </div>

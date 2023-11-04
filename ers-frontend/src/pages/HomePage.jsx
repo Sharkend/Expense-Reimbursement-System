@@ -30,8 +30,11 @@ const HomePage = () => {
                 <hr className="my-4" />
                 <p>The following features are enabled for all {manager ? "managers" : "associates"}:</p>
                 <p className="lead">
-                    <Link className="btn btn-dark btn-lg" to="/reimbursement" role="button">Manage Reimbursements</Link>
+                    <Link className="btn btn-dark btn-lg" to={manager ? "/reimbursement/employee" : "/reimbursement"} role="button">Manage Reimbursements</Link>
                     <Link className="btn btn-dark btn-lg ml-3" to="/profile" role="button">Edit Profile</Link>
+                    { manager ?
+                        <Link className="btn btn-dark btn-lg ml-3" to="/employees" role="button">View Organisation</Link> : ""
+                    }
                 </p>
             </div>
             <p>{ }</p>
